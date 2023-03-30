@@ -214,8 +214,9 @@ def main(config):
             
         else:
             ################### Pure T5 ############################
-            model = accelerator.prepare(model)
-            print("Accelerator applied")
+            # model = accelerator.prepare(model)
+            # print("Accelerator applied")
+            print("T5 Model Loaded")
             
     else:
         ################# BART Base #########################
@@ -240,7 +241,7 @@ def main(config):
         else:
             ################### Pure BART ############################
             model= accelerator.prepare(model)
-            print("Accelerator applied")
+            print("Accelerator applied: BART MODEL")
             
         
     ################# Collate_fn #################
