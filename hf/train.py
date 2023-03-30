@@ -192,7 +192,7 @@ def main(config):
             ################### LoRA ###############################
             lora_config = LoraConfig(r= config.lora_r,
                                     lora_alpha= config.lora_alpha,
-                                    target_modules=ast.literal_eval(config.lora_target_modules),,
+                                    target_modules=ast.literal_eval(config.lora_target_modules),
                                     lora_dropout=config.lora_dropout_p,
                                     bias="none", 
                                     task_type=TaskType.SEQ_2_SEQ_LM)
