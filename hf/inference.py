@@ -246,7 +246,7 @@ def main(config):
     print()
     
     ################# Let's Save #######################
-    save_name = config.try.lower() + f"_beams_{config.num_beams}" + "_hf_submission.csv"
+    save_name = config.try_title + f"_beams_{config.num_beams}" + "_hf_submission.csv"
     print(save_name)
     print()
     
