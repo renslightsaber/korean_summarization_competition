@@ -217,6 +217,15 @@ def main(config):
                                dataloader = test_loader, 
                                device = device, 
                                num_beams = config.num_beams)
+    print("Summarization Completed")
+    
+    print()
+    print("Sample?")
+    print("text")
+    print(test.text[2])
+    print("Summary")
+    print(test_sentences[2])
+    print()
    
 
     
