@@ -221,7 +221,7 @@ def main(config):
         ################# BART Base #########################
         model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
-        if config.is_lora:
+        if config.is_lora == "True":
             ################### LoRA ###############################
             lora_config = LoraConfig(r= config.lora_r,
                                     lora_alpha= config.lora_alpha,
