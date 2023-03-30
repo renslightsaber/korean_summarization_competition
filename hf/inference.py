@@ -171,8 +171,6 @@ def main(config):
             ################### Pure T5 ############################
             model = AutoModelForSeq2SeqLM.from_pretrained(output_path, local_files_only=True).to(device)
             print("Saved Model Loaded")
-            model = accelerator.prepare(model)
-            print("Accelerator applied")
             
     else:
         ################# Bart Base #########################
@@ -188,8 +186,6 @@ def main(config):
             ################### Pure Bart ############################
             model = AutoModelForSeq2SeqLM.from_pretrained(output_path, local_files_only=True).to(device)
             print("Saved Model Loaded")
-            model = accelerator.prepare(model)
-            print("Accelerator applied")
             
         
     ################# Collate_fn #################
