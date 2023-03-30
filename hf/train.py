@@ -39,7 +39,7 @@ from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
 from accelerate import Accelerator
 
 # About tqdm: https://github.com/tqdm/tqdm/#ipython-jupyter-integration
-from tqdm.auto import tqdm, trange
+# from tqdm.auto import tqdm, trange
 # from tqdm.notebook import trange
 
 # huggingFace/peft 
