@@ -123,36 +123,36 @@ def main(config):
     tokenizer = AutoTokenizer.from_pretrained(config.model)
     print("Tokenizer Downloaded")
 
-        ################# compute metrics for huggingface #####################      
-        def compute_metrics(eval_pred):
+    ################# compute metrics for huggingface #####################      
+    def compute_metrics(eval_pred):
 
-            predictions, labels = eval_pred
+        predictions, labels = eval_pred
 
-            # Rouge Metric instance
-            metric = Rouge(max_n=2, metrics = ["rouge-n", "rouge-l"] )
+        # Rouge Metric instance
+        metric = Rouge(max_n=2, metrics = ["rouge-n", "rouge-l"] )
 
-            # Decode generated summaries into text
-            decoded_preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
+        # Decode generated summaries into text
+        decoded_preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
 
-            # Replace -100 in the labels as we can't decode them
-            labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+        # Replace -100 in the labels as we can't decode them
+        labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
 
-            # Decode reference summaries into text
-            decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+        # Decode reference summaries into text
+        decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
 
-            # ROUGE expects a newline after each sentence
-            # decoded_preds = ["\n".join(sent_tokenize(pred.strip())) for pred in decoded_preds]
-            # decoded_labels = ["\n".join(sent_tokenize(label.strip())) for label in decoded_labels]
+        # ROUGE expects a newline after each sentence
+        # decoded_preds = ["\n".join(sent_tokenize(pred.strip())) for pred in decoded_preds]
+        # decoded_labels = ["\n".join(sent_tokenize(label.strip())) for label in decoded_labels]
 
-            # Compute ROUGE scores
-            rouges = metric.get_scores(decoded_preds, decoded_labels)
+        # Compute ROUGE scores
+        rouges = metric.get_scores(decoded_preds, decoded_labels)
 
-            return {"R1": rouges['rouge-1']['f'], "R2": rouges['rouge-2']['f'], "RL": rouges['rouge-l']['f']}
+        return {"R1": rouges['rouge-1']['f'], "R2": rouges['rouge-2']['f'], "RL": rouges['rouge-l']['f']}
 
-            # Extract the median scores
-            # result = {key: value.mid.fmeasure * 100 for key, value in result.items()}
-            # return {k: round(v, 4) for k, v in result.items()}  
-        
+        # Extract the median scores
+        # result = {key: value.mid.fmeasure * 100 for key, value in result.items()}
+        # return {k: round(v, 4) for k, v in result.items()}  
+
         
         
     ########################## Device #################################
