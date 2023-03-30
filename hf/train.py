@@ -186,14 +186,6 @@ def main(config):
     print("Dataset Loaded")
     
     
-    ################## Opimizer ##########################
-    optimizer = AdamW(model.parameters(), 
-                      lr = config.learning_rate, 
-                      weight_decay = config.weight_decay
-                     )
-    print("Optimizer Defined")
-    
-    
     ############### Accelerator ###############
     accelerator = Accelerator()
     
@@ -222,7 +214,7 @@ def main(config):
             
         else:
             ################### Pure T5 ############################
-            model, optimizer = accelerator.prepare(model, optimizer)
+            model = accelerator.prepare(model)
             print("Accelerator applied")
             
     else:
@@ -247,13 +239,21 @@ def main(config):
             
         else:
             ################### Pure BART ############################
-            model, optimizer = accelerator.prepare(model, optimizer)
+            model= accelerator.prepare(model)
             print("Accelerator applied")
             
         
     ################# Collate_fn #################
     collate_fn= DataCollatorForSeq2Seq(tokenizer, model = model)
     print("Collate_function Defined")
+    
+    
+    ################## Opimizer ##########################
+    optimizer = AdamW(model.parameters(), 
+                      lr = config.learning_rate, 
+                      weight_decay = config.weight_decay
+                     )
+    print("Optimizer Defined")
     
     
     ############### Scheduler #####################
