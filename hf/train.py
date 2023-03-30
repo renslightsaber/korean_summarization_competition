@@ -186,9 +186,17 @@ def main(config):
     print("Dataset Loaded")
     
     
+    ################## Opimizer ##########################
+    optimizer = AdamW(model.parameters(), 
+                      lr = config.learning_rate, 
+                      weight_decay = config.weight_decay
+                     )
+    print("Optimizer Defined")
+    
+    
     ############### Accelerator ###############
-    # from accelerate import Accelerator
     accelerator = Accelerator()
+    
     
     ############### Define Model ###############
     if config.model_type == "t5":
@@ -239,7 +247,7 @@ def main(config):
             
         else:
             ################### Pure BART ############################
-            model = accelerator.prepare(model)
+            model, optimizer = accelerator.prepare(model, optimizer)
             print("Accelerator applied")
             
         
@@ -248,15 +256,7 @@ def main(config):
     print("Collate_function Defined")
     
     
-    ################## Define Opimizer and Scheduler ##########################
-    optimizer = AdamW(model.parameters(), 
-                      lr = config.learning_rate, 
-                      weight_decay = config.weight_decay
-                     )
-    print("Optimizer Defined")
-    
-    
-    ############### scheduler = fetch_scheduler(optimizer) #####################
+    ############### Scheduler #####################
     lr_scheduler = CosineWarmupScheduler(optimizer=optimizer, 
                                          warmup=100,  
                                          max_iters=2000
