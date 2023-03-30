@@ -96,7 +96,7 @@ def define():
     
     p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
     p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
-    p.add_argument('--is_lora', type = bool, default = True, help = "LoRA Applied?")
+    p.add_argument('--is_lora', type = str, default = 'True', help = "LoRA Applied?")
     
     p.add_argument('--seed', type = int, default = 2023, help="Seed")
     p.add_argument('--num_beams', type = int, default = 2, help="Number of BEAMS for BEAMSEARCH")
