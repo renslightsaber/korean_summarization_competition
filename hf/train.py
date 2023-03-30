@@ -66,7 +66,7 @@ def define():
    
     p.add_argument('--sample', type = int, default = 1000, help="Number of Rows of train.csv")
     p.add_argument('--ratio', type = float, default = 0.8, help="Percentage of data to train")
-    p.add_argument('--try', type = str, default = "test", help="Experimental Information")
+    p.add_argument('--try_title', type = str, default = "test", help="Experimental Information")
     
     p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
     p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
@@ -109,7 +109,7 @@ def main(config):
     else:
         train = pd.read_csv(config.data_path + "train.csv")
     print(train.shape)
-    print(train.head(2))
+    print(train.head(3))
     
     ##################### Set Seed ###########################
     set_seed(config.seed)
@@ -274,7 +274,7 @@ def main(config):
                       # group=group_name,
                       # tags=[config['model'], f'{HASH_NAME}'],
                       # name=f'{HASH_NAME}-fold-{fold}',
-                       name = config['try'] + f"_hf_Trainer",
+                       name = config.try_title + f"_hf_Trainer",
                        anonymous='must')
     
     ############# Let's Train! ##################
