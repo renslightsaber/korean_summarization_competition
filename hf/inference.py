@@ -32,12 +32,6 @@ os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 from utils import *
 
 
-
-
-
-
-
-
 ################## summarize function ############################
 def summarize(model, 
               tokenizer,
@@ -85,6 +79,9 @@ def summarize(model,
     return total_sentences
 
 
+  
+  
+  
 ############### config = define() #########################
 def define():
     p = argparse.ArgumentParser()
@@ -253,6 +250,9 @@ def main(config):
 
     print("Inference Completed")
 
+    
+    
+    
 if __name__ == '__main__':
     config = define()
     main(config)
