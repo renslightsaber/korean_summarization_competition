@@ -32,6 +32,12 @@ os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 from utils import *
 
 
+
+
+
+
+
+
 ################## summarize function ############################
 def summarize(model, 
               tokenizer,
@@ -79,6 +85,32 @@ def summarize(model,
     return total_sentences
 
 
+############### config = define() #########################
+def define():
+    p = argparse.ArgumentParser()
+    p.add_argument('--data_path', type = str, default = "./data/", help="Data Folder Path")
+    p.add_argument('--model_save', type = str, default = "./models/", help="Trained Model Save Path")
+    p.add_argument('--sub_path', type = str, default = "./submission/", help="Data Folder Path")
+   
+    p.add_argument('--try_title', type = str, default = "test", help="Experimental Information")
+    
+    p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
+    p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
+    p.add_argument('--is_lora', type = bool, default = True, help = "LoRA Applied?")
+    
+    p.add_argument('--seed', type = int, default = 2023, help="Seed")
+   
+    p.add_argument('--valid_batch_size', type = int, default = 16, help="Valid Batch Size")
+    
+    p.add_argument('--max_length', type = int, default = 512, help="Max Length")
+    p.add_argument('--target_max_length', type = int, default = 65, help="Target Max Length")
+    
+    p.add_argument('--device', type = str, default = "cuda", help="CUDA or MPS or CPU?")
+
+    config = p.parse_args()
+    return config
+  
+  
 ############################# main  #############################
 def main(config):
      
