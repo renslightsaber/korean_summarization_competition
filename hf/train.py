@@ -69,7 +69,7 @@ def define():
     
     p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
     p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
-    p.add_argument('--is_lora', type = bool, default = True, help = "LoRA Applied?")
+    p.add_argument('--is_lora', type = str, default = 'True', help = "LoRA Applied?")
     p.add_argument('--lora_r', type = int, default = 4, help="Max Length")
     p.add_argument('--lora_alpha', type = int, default = 32, help="Max Length")
     p.add_argument('--lora_target_modules', type = str, default = "['q', 'v']", help="List of Nodes")
@@ -196,7 +196,7 @@ def main(config):
         ################# T5 Base #########################
         model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
-        if config.is_lora:
+        if config.is_lora == "True":
             ################### LoRA ###############################
             lora_config = LoraConfig(r= config.lora_r,
                                     lora_alpha= config.lora_alpha,
@@ -317,7 +317,7 @@ def main(config):
     # trainer.save_model()
     
     ############ Save Best PEFT LORA Model ################
-    if config.is_lora:
+    if config.is_lora == "True":
         peft_path = config.model_save +  f'output_peft_dir'
         trainer.model.save_pretrained(peft_path)
         print("Peft LoRA Model Saved")
