@@ -58,7 +58,7 @@ from utils import *
 def define():
     p = argparse.ArgumentParser()
 
-    p.add_argument('--base_path', type = str, default = "./data/", help="Base Path")    
+    # p.add_argument('--base_path', type = str, default = "./data/", help="Base Path")    
     p.add_argument('--data_path', type = str, default = "./data/", help="Data Folder Path")
     p.add_argument('--model_save', type = str, default = "./models/", help="Trained Model Save Path")
     # p.add_argument('--peft_save', type = str, default = "./models/", help="Trained Peft Model Save  Path")
@@ -104,10 +104,10 @@ def main(config):
     
     #################### Data #############################
     if config.sample:
-        train = pd.read_csv(base_path = config.data_path + "train.csv")
+        train = pd.read_csv(config.data_path + "train.csv")
         train = train[:config.sample].reset_index(drop= True)
     else:
-        train = pd.read_csv(base_path = config.data_path + "train.csv")
+        train = pd.read_csv(config.data_path + "train.csv")
     print(train.shape)
     print(train.head(2))
     
