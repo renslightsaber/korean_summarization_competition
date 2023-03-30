@@ -234,7 +234,7 @@ def main(config):
 
     
     ################################# Submission File #####################################
-    ss = pd.read_csv(data_path + "sample_submission.csv")
+    ss = pd.read_csv(config.data_path + "sample_submission.csv")
     print("Before")
     print(ss.shape)
     ss.head()
