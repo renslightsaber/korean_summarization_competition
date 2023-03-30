@@ -59,10 +59,8 @@ from utils import *
 def define():
     p = argparse.ArgumentParser()
 
-    # p.add_argument('--base_path', type = str, default = "./data/", help="Base Path")    
     p.add_argument('--data_path', type = str, default = "./data/", help="Data Folder Path")
     p.add_argument('--model_save', type = str, default = "./models/", help="Trained Model Save Path")
-    # p.add_argument('--peft_save', type = str, default = "./models/", help="Trained Peft Model Save  Path")
     p.add_argument('--sub_path', type = str, default = "./submission/", help="Data Folder Path")
    
     p.add_argument('--sample', type = int, default = 1000, help="Number of Rows of train.csv")
@@ -93,7 +91,6 @@ def define():
 
     p.add_argument('--n_accumulate', type = int, default = 1, help="n_accumulate")
     p.add_argument('--max_grad_norm', type = int, default = 1000, help="max_grad_norm")
-    p.add_argument('--grad_clipping', type = bool, default = False, help="Gradient Clipping")
     p.add_argument('--device', type = str, default = "cuda", help="CUDA or MPS or CPU?")
 
     config = p.parse_args()
