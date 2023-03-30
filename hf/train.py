@@ -320,7 +320,7 @@ def main(config):
     # trainer.save_model()
     
     ############ Save Best PEFT LORA Model ################
-    if config.peft_save:
+    if config.is_lora:
         peft_path = config.model_save +  f'output_peft_dir'
         trainer.model.save_pretrained(peft_path)
         print("Peft LoRA Model Saved")
