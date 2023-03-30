@@ -22,7 +22,10 @@ from accelerate import Accelerator
 # huggingFace/peft 
 from peft import PeftModel
 
+# About tqdm: https://github.com/tqdm/tqdm/#ipython-jupyter-integration
+from tqdm.auto import tqdm, trange
 # Suppress warnings
+
 import warnings
 warnings.filterwarnings("ignore")
 
