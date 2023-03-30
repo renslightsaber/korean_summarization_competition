@@ -53,37 +53,6 @@ warnings.filterwarnings("ignore")
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 
 from utils import *
-
-        
-################# compute metrics for huggingface #####################      
-def compute_metrics(eval_pred):
-
-    predictions, labels = eval_pred
-
-    # Rouge Metric instance
-    metric = Rouge(max_n=2, metrics = ["rouge-n", "rouge-l"] )
-
-    # Decode generated summaries into text
-    decoded_preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
-
-    # Replace -100 in the labels as we can't decode them
-    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
-
-    # Decode reference summaries into text
-    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
-
-    # ROUGE expects a newline after each sentence
-    # decoded_preds = ["\n".join(sent_tokenize(pred.strip())) for pred in decoded_preds]
-    # decoded_labels = ["\n".join(sent_tokenize(label.strip())) for label in decoded_labels]
-
-    # Compute ROUGE scores
-    rouges = metric.get_scores(decoded_preds, decoded_labels)
-
-    return {"R1": rouges['rouge-1']['f'], "R2": rouges['rouge-2']['f'], "RL": rouges['rouge-l']['f']}
-
-    # Extract the median scores
-    # result = {key: value.mid.fmeasure * 100 for key, value in result.items()}
-    # return {k: round(v, 4) for k, v in result.items()}  
     
     
 ############### config = define() #########################
@@ -133,6 +102,7 @@ def define():
 
 ############# main ##################
 def main(config):
+     
     
     #################### Data #############################
     if config.sample:
@@ -146,11 +116,45 @@ def main(config):
     ##################### Set Seed ###########################
     set_seed(config.seed)
     print("Seed Fixed!")
+        
+        
     
     ###################### Tokenizer ################################
     tokenizer = AutoTokenizer.from_pretrained(config.model)
     print("Tokenizer Downloaded")
 
+        ################# compute metrics for huggingface #####################      
+        def compute_metrics(eval_pred):
+
+            predictions, labels = eval_pred
+
+            # Rouge Metric instance
+            metric = Rouge(max_n=2, metrics = ["rouge-n", "rouge-l"] )
+
+            # Decode generated summaries into text
+            decoded_preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
+
+            # Replace -100 in the labels as we can't decode them
+            labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+
+            # Decode reference summaries into text
+            decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+
+            # ROUGE expects a newline after each sentence
+            # decoded_preds = ["\n".join(sent_tokenize(pred.strip())) for pred in decoded_preds]
+            # decoded_labels = ["\n".join(sent_tokenize(label.strip())) for label in decoded_labels]
+
+            # Compute ROUGE scores
+            rouges = metric.get_scores(decoded_preds, decoded_labels)
+
+            return {"R1": rouges['rouge-1']['f'], "R2": rouges['rouge-2']['f'], "RL": rouges['rouge-l']['f']}
+
+            # Extract the median scores
+            # result = {key: value.mid.fmeasure * 100 for key, value in result.items()}
+            # return {k: round(v, 4) for k, v in result.items()}  
+        
+        
+        
     ########################## Device #################################
     if config.device == "mps":
         device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
