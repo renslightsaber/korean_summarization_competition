@@ -33,17 +33,17 @@ from torch.utils.data import Dataset, DataLoader
 
 ## Transforemr Import
 from transformers import AutoTokenizer, AdamW, DataCollatorForSeq2Seq, AutoModelForSeq2SeqLM
-from transformers import Seq2SeqTrainer
-from transformers import Seq2SeqTrainingArguments
+from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
 
+# Accelerate
 from accelerate import Accelerator
 
 # About tqdm: https://github.com/tqdm/tqdm/#ipython-jupyter-integration
 from tqdm.auto import tqdm, trange
 # from tqdm.notebook import trange
 
-# HuggingFace peft 라이브러리
-# from peft import get_peft_model, PeftModel, TaskType, LoraConfig
+# huggingFace/peft 
+from peft import LoraConfig, get_peft_model, prepare_model_for_int8_training, TaskType
 
 # Suppress warnings
 import warnings
@@ -60,17 +60,24 @@ def define():
 
     p.add_argument('--base_path', type = str, default = "./data/", help="Base Path")    
     p.add_argument('--data_path', type = str, default = "./data/", help="Data Folder Path")
-    p.add_argument('--model_save', type = str, default = "./models/", help="Data Folder Path")
+    p.add_argument('--model_save', type = str, default = "./models/", help="Trained Model Save Path")
+    # p.add_argument('--peft_save', type = str, default = "./models/", help="Trained Peft Model Save  Path")
     p.add_argument('--sub_path', type = str, default = "./submission/", help="Data Folder Path")
    
-    p.add_argument('--ratio', type = float, default = 0.95, help="Percentage of data to train")
-    p.add_argument('--try', type = str, default = "T17", help="Experimental Information")
+    p.add_argument('--sample', type = int, default = 1000, help="Number of Rows of train.csv")
+    p.add_argument('--ratio', type = float, default = 0.8, help="Percentage of data to train")
+    p.add_argument('--try', type = str, default = "test", help="Experimental Information")
     
-    p.add_argument('--model', type = str, default = "kakaobrain/kogpt", help="HuggingFace Pretrained Model")    
-    # p.add_argument('--model_type', type = str, default = "AutoModelForSequenceClassification", help="HuggingFace Pretrained Model")
+    p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
+    p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
+    p.add_argument('--is_lora', type = bool, default = True, help = "LoRA Applied?")
+    p.add_argument('--lora_r', type = int, default = 4, help="Max Length")
+    p.add_argument('--lora_alpha', type = int, default = 32, help="Max Length")
+    p.add_argument('--lora_target_modules', type = str, default = "['q', 'v']", help="List of Nodes")
+    p.add_argument('--lora_dropout_p', type = float, default = 0.05, help="Min LR")
     
     p.add_argument('--seed', type = int, default = 2023, help="Seed")
-    p.add_argument('--n_epochs', type = int, default = 8, help="Epochs")
+    p.add_argument('--n_epochs', type = int, default = 3, help="Epochs")
     
     p.add_argument('--train_batch_size', type = int, default = 16, help="Train Batch Size")
     p.add_argument('--valid_batch_size', type = int, default = 16, help="Valid Batch Size")
@@ -95,19 +102,24 @@ def define():
 ############# main ##################
 def main(config):
     
-    ## Data
-    train = pd.read_csv(base_path = config.data_path + "train.csv")
+    #################### Data #############################
+    if config.sample:
+        train = pd.read_csv(base_path = config.data_path + "train.csv")
+        train = train[:config.sample].reset_index(drop= True)
+    else:
+        train = pd.read_csv(base_path = config.data_path + "train.csv")
     print(train.shape)
     print(train.head(2))
     
-    ## Set Seed
+    ##################### Set Seed ###########################
     set_seed(config.seed)
+    print("Seed Fixed!")
     
-    ## Tokenizer
+    ###################### Tokenizer ################################
     tokenizer = AutoTokenizer.from_pretrained(config.model)
     print("Tokenizer Downloaded")
 
-    # Device
+    ########################## Device #################################
     if config.device == "mps":
         device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
         
@@ -119,14 +131,14 @@ def main(config):
 
     print("Device", device)
     
-    ## prepare_ds
+    ######################### prepare_ds #################################
     index_num = int(train.shape[0] * config.ratio)
     print(index_num)
 
     train_df = train[: index_num].reset_index(drop = True)
     valid_df = train[index_num: ].reset_index(drop = True)
 
-    ## train, valid -> Dataset
+    #################### train, valid -> Dataset ###########################
     train_ds = MyDataset(train_df, 
                         tokenizer = tokenizer ,
                         max_length =  config.max_length,
@@ -138,72 +150,94 @@ def main(config):
                         max_length =  config.max_length,
                         target_max_length = config.target_max_length,
                         mode = "train")
-    
     print("Dataset Loaded")
     
-#     # Define Model 
-#     if config.model_type == "t5":
-#         model = AutoModelForSequenceClassification.from_pretrained(config.model, 
-#                                                                    num_labels = 3).to(device)
-#     else:
-#         model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
-        
-    ## Define Model
-    model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
-        
-    ## Collate_fn
-    collate_fn= DataCollatorForSeq2Seq(tokenizer, model = model)
     
-    # Define Opimizer and Scheduler
-    optimizer = AdamW(model.parameters(), 
-                      lr = config['learning_rate'], 
-                      weight_decay = config['weight_decay'])
-    print("Optimizer Defined")
-
-    # scheduler = fetch_scheduler(optimizer)
-    lr_scheduler = CosineWarmupScheduler(optimizer=optimizer, warmup=100,  max_iters=2000)
-    print("LR Scheduler Loaded")
-    
-    ## Accelerator
+    ############### Accelerator ###############
     # from accelerate import Accelerator
     accelerator = Accelerator()
-    model, optimizer = accelerator.prepare(model, optimizer)
-    print("Accelerator applied")
     
-
-    ################# compute metrics for huggingface #####################      
-    def compute_metrics(eval_pred):
-
-        predictions, labels = eval_pred
-
-        # Rouge Metric instance
-        metric = Rouge(max_n=2, metrics = ["rouge-n", "rouge-l"] )
-
-        # Decode generated summaries into text
-        decoded_preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
-
-        # Replace -100 in the labels as we can't decode them
-        labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
-
-        # Decode reference summaries into text
-        decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
-
-        # ROUGE expects a newline after each sentence
-        # decoded_preds = ["\n".join(sent_tokenize(pred.strip())) for pred in decoded_preds]
-        # decoded_labels = ["\n".join(sent_tokenize(label.strip())) for label in decoded_labels]
-
-        # Compute ROUGE scores
-        rouges = metric.get_scores(decoded_preds, decoded_labels)
-
-        return {"R1": rouges['rouge-1']['f'], "R2": rouges['rouge-2']['f'], "RL": rouges['rouge-l']['f']}
-
-        # Extract the median scores
-        # result = {key: value.mid.fmeasure * 100 for key, value in result.items()}
-        # return {k: round(v, 4) for k, v in result.items()}  
-
-    ## training_args
+    ############### Define Model ###############
+    if config.model_type == "t5":
+        
+        ################# T5 Base #########################
+        model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
+        
+        if config.is_lora:
+            ################### LoRA ###############################
+            lora_config = LoraConfig(r= config.lora_r,
+                                    lora_alpha= config.lora_alpha,
+                                    target_modules= ast.literal_eval(config.lora_target_modules),
+                                    lora_dropout=config.lora_dropout_p,
+                                    bias="none", 
+                                    task_type=TaskType.SEQ_2_SEQ_LM)
+            
+            print("Int 8 model for training")
+            model = prepare_model_for_int8_training(model)
+            
+            print("LoRA Adaptor Added")
+            model = get_peft_model(model, lora_config)
+            model.print_trainable_parameters()
+            
+        else:
+            ################### Pure T5 ############################
+            model, optimizer = accelerator.prepare(model, optimizer)
+            print("Accelerator applied")
+            
+    else:
+        ################# Bart Base #########################
+        model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
+        
+        if config.is_lora:
+            ################### LoRA ###############################
+            lora_config = LoraConfig(r= config.lora_r,
+                                    lora_alpha= config.lora_alpha,
+                                    target_modules=ast.literal_eval(config.lora_target_modules),,
+                                    lora_dropout=config.lora_dropout_p,
+                                    bias="none", 
+                                    task_type=TaskType.SEQ_2_SEQ_LM)
+            
+            print("Int 8 model for training")
+            model = prepare_model_for_int8_training(model)
+            
+            print("LoRA Adaptor Added")
+            model = get_peft_model(model, lora_config)
+            model.print_trainable_parameters()
+            
+        else:
+            ################### Pure T5 ############################
+            model, optimizer = accelerator.prepare(model, optimizer)
+            print("Accelerator applied")
+            
+        
+    ################# Collate_fn #################
+    collate_fn= DataCollatorForSeq2Seq(tokenizer, model = model)
+    print("Collate_function Defined")
+    
+    
+    ################## Define Opimizer and Scheduler ##########################
+    optimizer = AdamW(model.parameters(), 
+                      lr = config.learning_rate, 
+                      weight_decay = config.weight_decay
+                     )
+    print("Optimizer Defined")
+    
+    
+    ############### scheduler = fetch_scheduler(optimizer) #####################
+    lr_scheduler = CosineWarmupScheduler(optimizer=optimizer, 
+                                         warmup=100,  
+                                         max_iters=2000
+                                        )
+    print("LR Scheduler Loaded")
+    
+    
+    ############### Trained Model Path ############
+    output_path = config.model_save + f'output_/'
+    print(output_path)
+    
+    ################# training_args #################
     training_args = Seq2SeqTrainingArguments(
-                        output_dir = config.model_save + f'output_/', # config['base_path'] + f'output_{fold}/', 
+                        output_dir = output_path,
                         evaluation_strategy = 'epoch', 
                         per_device_train_batch_size = config.train_batch_size, 
                         per_device_eval_batch_size = config.valid_batch_size,
@@ -223,18 +257,17 @@ def main(config):
                         report_to="wandb",
                         )
 
-      
-    ## Trainer
-    trainer = Seq2SeqTrainer(
-        model,
-        training_args,
-        train_dataset = train_ds,
-        eval_dataset = valid_ds,
-        data_collator = collate_fn,
-        tokenizer = tokenizer,
-        optimizers = (optimizer, lr_scheduler), 
-        compute_metrics = compute_metrics)
+    ################# Trainer #################
+    trainer = Seq2SeqTrainer(model,
+                            training_args,
+                            train_dataset = train_ds,
+                            eval_dataset = valid_ds,
+                            data_collator = collate_fn,
+                            tokenizer = tokenizer,
+                            optimizers = (optimizer, lr_scheduler), 
+                            compute_metrics = compute_metrics)
     
+    ################### wandb ######################
     run = wandb.init(project='Korean_Summarization', 
                       config=config,
                       job_type='Train',
@@ -244,15 +277,29 @@ def main(config):
                        name = config['try'] + f"_hf_Trainer",
                        anonymous='must')
     
-    ## Let's Train!
+    ############# Let's Train! ##################
     trainer.train()
     
-    ## Save Best Model
-    trainer.save_model()
+    ############ Save Best Model ################
+    # trainer.save_model()
+    
+    ############ Save Best PEFT LORA Model ################
+    if config.peft_save:
+        peft_path = config.model_save +  f'output_peft_dir'
+        trainer.model.save_pretrained(peft_path)
+        print("Peft LoRA Model Saved")
+        tokenizer.save_pretrained(peft_path)
+        print("Tokenizer Saved")
+    else:
+        print(output_path)
+        trainer.save_model(output_path)
+        print("Peft Model Saved")
+        tokenizer.save_pretrained(output_path)
+        print("Tokenizer Saved")
 
-    ## wandb.finish()
+    ############ wandb.finish() #################
     run.finish()
-
+    
     torch.cuda.empty_cache()
     _ = gc.collect()
 
