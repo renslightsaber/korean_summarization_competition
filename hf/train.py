@@ -221,7 +221,7 @@ def main(config):
             print("Accelerator applied")
             
     else:
-        ################# Bart Base #########################
+        ################# BART Base #########################
         model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
         if config.is_lora:
@@ -241,7 +241,7 @@ def main(config):
             model.print_trainable_parameters()
             
         else:
-            ################### Pure T5 ############################
+            ################### Pure BART ############################
             model, optimizer = accelerator.prepare(model, optimizer)
             print("Accelerator applied")
             
