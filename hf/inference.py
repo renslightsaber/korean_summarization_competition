@@ -96,6 +96,7 @@ def define():
     p.add_argument('--is_lora', type = bool, default = True, help = "LoRA Applied?")
     
     p.add_argument('--seed', type = int, default = 2023, help="Seed")
+    p.add_argument('--num_beams', type = int, default = 2, help="Number of BEAMS for BEAMSEARCH")
    
     p.add_argument('--valid_batch_size', type = int, default = 16, help="Valid Batch Size")
     
