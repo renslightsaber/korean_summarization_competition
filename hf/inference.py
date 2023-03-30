@@ -147,7 +147,7 @@ def main(config):
     output_path = config.model_save + f'output_/'
     
     print("Saved Model Path: ")
-    if config.is_lora:
+    if config.is_lora == "True":
         print(peft_path)
     else:
         print(output_path)
@@ -161,7 +161,7 @@ def main(config):
         ################# T5 Base #########################
         # model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
-        if config.is_lora:
+        if config.is_lora == "True":
             ################### LoRA ###############################
             model = AutoModelForSeq2SeqLM.from_pretrained(config.model, load_in_8bit=True, device_map={"":0})
             print("Base Model Loaded")
@@ -178,7 +178,7 @@ def main(config):
         ################# Bart Base #########################
         # model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
-        if config.is_lora:
+        if config.is_lora == "True":
             ################### LoRA ###############################
             model = AutoModelForSeq2SeqLM.from_pretrained(config.model, load_in_8bit=True, device_map={"":0})
             print("Base Model Loaded")
@@ -199,18 +199,18 @@ def main(config):
     
     ######################### prepare_ds #################################
     test_ds = MyDataset(test, 
-                    tokenizer = tokenizer, 
-                    max_length = config.max_length, 
-                    target_max_length = config.target_max_length, 
-                    mode = "test")
+                        tokenizer = tokenizer, 
+                        max_length = config.max_length, 
+                        target_max_length = config.target_max_length, 
+                        mode = "test")
 
     test_loader = DataLoader(test_ds, 
-                         batch_size = config.valid_batch_size, 
-                         collate_fn=collate_fn, 
-                         num_workers = 2,  
-                         shuffle = False, 
-                         pin_memory = True, 
-                         drop_last= False)
+                             batch_size = config.valid_batch_size, 
+                             collate_fn=collate_fn, 
+                             num_workers = 2,  
+                             shuffle = False, 
+                             pin_memory = True, 
+                             drop_last= False)
     print("Test Loader Completed")
     
     ############################# Summarize (Inference) ##################################
