@@ -239,7 +239,7 @@ def main(config):
             
         else:
             ################### Pure BART ############################
-            model, optimizer = accelerator.prepare(model, optimizer)
+            model = accelerator.prepare(model)
             print("Accelerator applied")
             
         
