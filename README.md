@@ -25,7 +25,7 @@
 
 ## References
 - [🤗Huggingface - Summarization](https://huggingface.co/course/chapter7/5?fw=pt)
-- [BartForConditionalGeneration](https://huggingface.co/docs/transformers/v4.27.1/en/model_doc/bart#transformers.BartForConditionalGeneration)
+- [🤗Huggingface - BartForConditionalGeneration](https://huggingface.co/docs/transformers/v4.27.1/en/model_doc/bart#transformers.BartForConditionalGeneration)
 - [KoBART Summarization with PL](https://github.com/seujung/KoBART-summarization)
   - [Rouge Class (Mecab)](https://github.com/seujung/KoBART-summarization/blob/main/rouge_metric.py)
 - [[LoRA] allow fine-tuning of the text encoder with LoRA (using peft) #2719](https://github.com/huggingface/diffusers/issues/2719)
