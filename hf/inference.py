@@ -96,7 +96,9 @@ def define():
     
     p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
     p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
-    p.add_argument('--is_lora', type = str, default = 'True', help = "LoRA Applied?")
+    # p.add_argument('--is_lora', type = str, default = 'True', help = "LoRA Applied?")
+    p.add_argument("--is_lora", type= lambda s : s.lower() in true_false_list, required=False, default=True, 
+                   help="LoRA or Not : True or False (e.g true,y, 1 | false, n, 0)")
     
     p.add_argument('--seed', type = int, default = 2023, help="Seed")
     p.add_argument('--num_beams', type = int, default = 2, help="Number of BEAMS for BEAMSEARCH")
@@ -161,7 +163,7 @@ def main(config):
         ################# T5 Base #########################
         # model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
-        if config.is_lora == "True":
+        if config.is_lora:
             ################### LoRA ###############################
             model = AutoModelForSeq2SeqLM.from_pretrained(config.model, load_in_8bit=True, device_map={"":0})
             print("Base Model Loaded")
@@ -176,7 +178,7 @@ def main(config):
         ################# Bart Base #########################
         # model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
-        if config.is_lora == "True":
+        if config.is_lora:
             ################### LoRA ###############################
             model = AutoModelForSeq2SeqLM.from_pretrained(config.model, load_in_8bit=True, device_map={"":0})
             print("Base Model Loaded")
