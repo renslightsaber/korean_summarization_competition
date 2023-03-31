@@ -1,4 +1,4 @@
-# [[AI CONNECT]Korean Abstractive Summary Competition](https://aiconnect.kr/competition/detail/223)
+# [[공사 중][AI CONNECT] Korean Abstractive Summary Competition](https://aiconnect.kr/competition/detail/223)
 
 
 <img src="/imgs/스크린샷 2023-03-31 오후 5.40.40.png" width="82%"></img>
@@ -12,7 +12,8 @@
  - Environment: `Colab`
  
  ## Result 
- - PUBLIC  : 3rd / 601 teams
+ - PUBLIC  : `3rd` / 601 teams
+   > Hope Lower Rank in `Private LeaderBoard` or `Final LeaderBoard`
  - PRIVATE : `Not yet`
  - Final: `Not yet`
  
