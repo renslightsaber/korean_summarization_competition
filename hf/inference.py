@@ -97,6 +97,7 @@ def define():
     p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
     p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
     # p.add_argument('--is_lora', type = str, default = 'True', help = "LoRA Applied?")
+    true_false_list = ['true', 'yes', "1", 't','y']
     p.add_argument("--is_lora", type= lambda s : s.lower() in true_false_list, required=False, default=True, 
                    help="LoRA or Not : True or False (e.g true,y, 1 | false, n, 0)")
     
