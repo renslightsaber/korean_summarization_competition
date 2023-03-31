@@ -62,14 +62,19 @@ def define():
     p.add_argument('--data_path', type = str, default = "./data/", help="Data Folder Path")
     p.add_argument('--model_save', type = str, default = "./models/", help="Trained Model Save Path")
     p.add_argument('--sub_path', type = str, default = "./submission/", help="Data Folder Path")
-   
+    
+    true_false_list = ['true', 'yes', "1", 't','y']
+    p.add_argument("--is_sample", type= lambda s : s.lower() in true_false_list, required=False, default=True, 
+                   help="Sample or Not : True or False (e.g true,y, 1 | false, n, 0)")
     p.add_argument('--sample', type = int, default = 1000, help="Number of Rows of train.csv")
     p.add_argument('--ratio', type = float, default = 0.8, help="Percentage of data to train")
     p.add_argument('--try_title', type = str, default = "test", help="Experimental Information")
     
     p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
     p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
-    p.add_argument('--is_lora', type = str, default = 'True', help = "LoRA Applied?")
+    # p.add_argument('--is_lora', type = str, default = 'True', help = "LoRA Applied?")
+    p.add_argument("--is_lora", type= lambda s : s.lower() in true_false_list, required=False, default=True, 
+                   help="LoRA or Not : True or False (e.g true,y, 1 | false, n, 0)")
     p.add_argument('--lora_r', type = int, default = 4, help="Max Length")
     p.add_argument('--lora_alpha', type = int, default = 32, help="Max Length")
     p.add_argument('--lora_target_modules', type = str, default = "['q', 'v']", help="List of Nodes")
@@ -102,7 +107,7 @@ def main(config):
      
     
     #################### Data #############################
-    if config.sample:
+    if config.is_sample:
         train = pd.read_csv(config.data_path + "train.csv")
         train = train[:config.sample].reset_index(drop= True)
     else:
@@ -196,7 +201,7 @@ def main(config):
         ################# T5 Base #########################
         model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
-        if config.is_lora == "True":
+        if config.is_lora:
             ################### LoRA ###############################
             lora_config = LoraConfig(r= config.lora_r,
                                     lora_alpha= config.lora_alpha,
@@ -222,7 +227,7 @@ def main(config):
         ################# BART Base #########################
         model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
-        if config.is_lora == "True":
+        if config.is_lora:
             ################### LoRA ###############################
             lora_config = LoraConfig(r= config.lora_r,
                                     lora_alpha= config.lora_alpha,
@@ -318,7 +323,7 @@ def main(config):
     # trainer.save_model()
     
     ############ Save Best PEFT LORA Model ################
-    if config.is_lora == "True":
+    if config.is_lora:
         peft_path = config.model_save +  f'output_peft_dir'
         trainer.model.save_pretrained(peft_path)
         print("Peft LoRA Model Saved")
