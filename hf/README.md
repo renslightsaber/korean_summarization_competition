@@ -55,7 +55,7 @@ $ python inference.py --data_path '/content/drive/MyDrive/ ... /data/' \
                       --model 'gogamza/kobart-base-v2' \
                       --model_type "bart" \
                       --is_lora True \
-                      --try_title "test1" \
+                      --try_title "test2" \
                       --device 'cuda' \
                       --num_beams 2 \
                       --max_length 512 \
