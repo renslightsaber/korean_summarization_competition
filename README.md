@@ -27,7 +27,7 @@
 - [🤗Huggingface - Summarization](https://huggingface.co/course/chapter7/5?fw=pt)
 - [BartForConditionalGeneration](https://huggingface.co/docs/transformers/v4.27.1/en/model_doc/bart#transformers.BartForConditionalGeneration)
 - [KoBART Summarization with PL](https://github.com/seujung/KoBART-summarization)
-- [mecab Rouge](https://github.com/seujung/KoBART-summarization/blob/main/rouge_metric.py)
+  - [Rouge Class (Mecab)](https://github.com/seujung/KoBART-summarization/blob/main/rouge_metric.py)
 - [[LoRA] allow fine-tuning of the text encoder with LoRA (using peft) #2719](https://github.com/huggingface/diffusers/issues/2719)
 - [Efficient Large Language Model training with LoRA and Hugging Face](https://www.philschmid.de/fine-tune-flan-t5-peft)
 - [Transformer로 텍스트를 생성하는 다섯 가지 전략](https://littlefoxdiary.tistory.com/46)
