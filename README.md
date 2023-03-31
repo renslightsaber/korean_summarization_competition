@@ -13,7 +13,7 @@
  
  ## Result 
  - PUBLIC  : `3rd` / 601 teams
-   > Hope Lower Rank in `Private LeaderBoard` or `Final LeaderBoard`
+   > Hope Higher or this Rank in `Private LeaderBoard` or `Final LeaderBoard`
  - PRIVATE : `Not yet`
  - Final: `Not yet`
  
