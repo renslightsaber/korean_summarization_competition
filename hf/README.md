@@ -52,15 +52,15 @@ $ python train.py --data_path '/content/drive/MyDrive/ ... /data/' \
 $ python inference.py --data_path '/content/drive/MyDrive/ ... /data/' \
                       --model_save '/content/drive/MyDrive/ ... /test/model/hf_t5_lora/' \
                       --sub_path '/content/drive/MyDrive/ ... /test/sub/' \
-                      --model "eenzeenee/t5-small-korean-summarization" \
-                      --model_type "t5" \
+                      --model 'gogamza/kobart-base-v2' \
+                      --model_type "bart" \
                       --is_lora True \
                       --try_title "test1" \
                       --device 'cuda' \
                       --num_beams 2 \
                       --max_length 512 \
                       --target_max_length 55 \
-                      --valid_batch_size 16
+                      --valid_batch_size 32
 
 ```
 - `base_path` : Data가 저장된 경로 (Default: `./data/`)
