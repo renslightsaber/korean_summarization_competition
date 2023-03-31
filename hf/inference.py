@@ -149,7 +149,7 @@ def main(config):
     output_path = config.model_save + f'output_/'
     
     print("Saved Model Path: ")
-    if config.is_lora == "True":
+    if config.is_lora:
         print(peft_path)
     else:
         print(output_path)
