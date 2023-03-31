@@ -1,7 +1,7 @@
 # [🤗Huggingface] How to train or inference in CLI? [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/12GWxOSOObKLG3nYDHJQwDsyEcHqSLhly?usp=share_link) [![wandb](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-gradient.svg)](https://wandb.ai/wako/Korean_Summarization?workspace=user-wako)
  
 
-## Check Jupyter Notebook Version [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1o6eDhovPt4XKzpp6dz5VQhzw0wwkAhsa?usp=share_link) 
+## Check Jupyter Notebook Version (Just hf_style Baseline) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1o6eDhovPt4XKzpp6dz5VQhzw0wwkAhsa?usp=share_link) 
  
  <img src="/imgs/스크린샷 2023-03-31 오후 5.30.05.png" width="83%"></img>
 
