@@ -22,7 +22,7 @@ $ wandb login --relogin '######### your API token ###########'
 ## Train 
 ```bash
 $ python train.py --data_path '/content/drive/MyDrive/ ... /data/' \
-                  --model_save '/content/drive/MyDrive/ ... /test/model/hf_bart_lora/' \
+                  --model_save '/content/drive/MyDrive/ ... /test/model/torch_bart_lora/' \
                   --is_sample True \
                   --sample 1000 \
                   --model 'gogamza/kobart-base-v2' \
@@ -56,7 +56,7 @@ $ python train.py --data_path '/content/drive/MyDrive/ ... /data/' \
 ## Inference 
 ```bash
 $ python inference.py --data_path '/content/drive/MyDrive/ ... /data/' \
-                      --model_save '/content/drive/MyDrive/ ... /test/model/hf_t5_lora/' \
+                      --model_save '/content/drive/MyDrive/ ... /test/model/torch_bart_lora/' \
                       --sub_path '/content/drive/MyDrive/ ... /test/sub/' \
                       --model 'gogamza/kobart-base-v2' \
                       --model_type "bart" \
