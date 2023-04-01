@@ -199,7 +199,7 @@ def get_model(model_name,
               model_save_path, 
               is_lora,
               model_saved_type, # 'R1'
-              ):
+              device):
     
     base_model = AutoModelForSeq2SeqLM.from_pretrained(model_name, load_in_8bit=True, device_map={"":0})
     
