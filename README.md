@@ -21,6 +21,7 @@
 ## How to train or inference in CLI? 
 - [pip install ... ](https://github.com/renslightsaber/korean_summarization_competition/blob/main/pip_install.md)
 - [🤗huggingface - Practice in cli](https://github.com/renslightsaber/korean_summarization_competition/tree/main/hf) 
+- [🔥torch - Practice in cli](https://github.com/renslightsaber/korean_summarization_competition/tree/main/torch) 
 - Check [![wandb](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-gradient.svg)](https://wandb.ai/wako/Korean_Summarization?workspace=user-wako)
 
 ## References
