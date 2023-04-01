@@ -92,6 +92,8 @@ def define():
     p.add_argument('--seed', type = int, default = 2023, help="Seed")
     p.add_argument('--n_epochs', type = int, default = 3, help="Epochs")
     
+    p.add_argument('--num_sentences', type = int, default = 4, help="Number of Senternces for infer during training")
+    
     p.add_argument('--train_batch_size', type = int, default = 16, help="Train Batch Size")
     p.add_argument('--valid_batch_size', type = int, default = 16, help="Valid Batch Size")
     
