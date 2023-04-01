@@ -257,7 +257,7 @@ def run_train(model,
               max_norm = 10,
               scheduler = None, 
               grad_clipping = False, 
-              n_epochs= config['n_epochs']):
+              n_epochs= 3):
     
     # To automatically log gradients
     wandb.watch(model, log_freq=100)
