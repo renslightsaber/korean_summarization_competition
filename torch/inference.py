@@ -106,7 +106,7 @@ def main(config):
                        model_save_path = config.model_save, 
                        is_lora = config.is_lora,
                        model_saved_type = config.model_saved_type, # 'R1'
-                       )
+                       device = device)
             
         
     ################# Collate_fn #################
