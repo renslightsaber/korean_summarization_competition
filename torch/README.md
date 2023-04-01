@@ -1,7 +1,7 @@
 # [🔥torch] How to train or inference in CLI? [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1-38FxWfHqZUo8iyHUnlkKycWm9xRiiQh?usp=share_link) [![wandb](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-gradient.svg)](https://wandb.ai/wako/Korean_Summarization?workspace=user-wako)
  
 
-## Check Jupyter Notebook Version (Just hf_style Baseline) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/11xDISVyASIR1JMNWPowT5L1ZGLdEfQka?usp=share_link) 
+## Check Jupyter Notebook Version (Just 🔥torch_style Baseline) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/11xDISVyASIR1JMNWPowT5L1ZGLdEfQka?usp=share_link) 
  
  <img src="/imgs/스크린샷 2023-04-01 오후 1.07.17.png" width="83%"></img>
 
