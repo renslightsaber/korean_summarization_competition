@@ -12,7 +12,7 @@
  - Environment: `Colab`
  
  ## Result 
- - PUBLIC  : `3rd` / 601 teams
+ - PUBLIC  : `3rd` / 418 teams (total 601 participants)
    > Hope Higher or this Rank in `Private LeaderBoard` or `Final LeaderBoard`
  - PRIVATE : `Not yet`
  - Final: `Not yet`
