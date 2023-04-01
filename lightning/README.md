@@ -5,10 +5,15 @@
  
 
 
-
-## Caution
- - Unfortunately, Data is not Provided
-
+## Notice
+ - Unfortunately, Data is not Provided.
+ - Tried ⚡lightning 2.0 for the following reasons:
+   - Compare with `🤗huggingface` or `🔥torch`.
+   - compatible for `torch.compile()`: however, got error whenever I tried. 
+     - I guess that`peft` might be not compatible with `🔥Pytorch 2.0`.
+   - Just for studying `⚡lightning 2.0` and `Fabric`.
+   
+   
 ## [wandb login in CLI interface](https://docs.wandb.ai/ref/cli/wandb-login)
 ```python
 $ wandb login --relogin '######### your API token ###########'                  
