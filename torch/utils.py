@@ -20,6 +20,9 @@ from torch.utils.data import Dataset, DataLoader
 from peft import PeftModel
 from transformers import AutoModelForSeq2SeqLM
 
+# About tqdm: https://github.com/tqdm/tqdm/#ipython-jupyter-integration
+from tqdm.auto import tqdm, trange
+
 
 #################### Set Seed ###########################
 def set_seed(seed=42):
