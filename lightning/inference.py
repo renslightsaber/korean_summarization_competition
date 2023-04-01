@@ -51,13 +51,16 @@ def define():
     p.add_argument('--try_title', type = str, default = "test", help="Experimental Information")
     
     p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
-    p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
-    p.add_argument('--model_saved_type', type = str, default = "R1", help="R1 or Loss")
     
     # p.add_argument('--is_lora', type = str, default = 'True', help = "LoRA Applied?")
     true_false_list = ['true', 'yes', "1", 't','y']
     p.add_argument("--is_lora", type= lambda s : s.lower() in true_false_list, required=False, default=True, 
                    help="LoRA or Not : True or False (e.g true,y, 1 | false, n, 0)")
+    
+    p.add_argument('--lora_r', type = int, default = 4, help="Max Length")
+    p.add_argument('--lora_alpha', type = int, default = 32, help="Max Length")
+    p.add_argument('--lora_target_modules', type = str, default = "['q', 'v']", help="List of Nodes")
+    p.add_argument('--lora_dropout_p', type = float, default = 0.05, help="Min LR")
     
     p.add_argument('--seed', type = int, default = 2023, help="Seed")
     p.add_argument('--num_beams', type = int, default = 2, help="Number of BEAMS for BEAMSEARCH")
@@ -67,7 +70,12 @@ def define():
     p.add_argument('--max_length', type = int, default = 512, help="Max Length")
     p.add_argument('--target_max_length', type = int, default = 65, help="Target Max Length")
     
-    p.add_argument('--device', type = str, default = "cuda", help="CUDA or MPS or CPU?")
+    p.add_argument('--num_sentences', type = int, default = 4, help="Number of Senternces for infer during training")
+    
+    p.add_argument('--learning_rate', type = float, default = 1e-5, help="lr")
+    p.add_argument('--weight_decay', type = float, default = 1e-6, help="Weight Decay")
+    
+    # p.add_argument('--device', type = str, default = "cuda", help="CUDA or MPS or CPU?")
 
     config = p.parse_args()
     return config
