@@ -166,7 +166,8 @@ def main(config):
     ############### get_lightning_train_model ###############
     compiled_model = get_lightning_train_model(model_kwargs = model_kwargs,
                                               is_compiled = config.is_compiled, 
-                                              mode = config.compiled_mode)
+                                              mode = config.compiled_mode,
+                                              device = device)
     print("GOT MODEL")
             
         
