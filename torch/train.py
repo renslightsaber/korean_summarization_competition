@@ -105,8 +105,10 @@ def define():
     p.add_argument('--min_lr', type = float, default = 1e-6, help="Min LR")
     p.add_argument('--weight_decay', type = float, default = 1e-6, help="Weight Decay")
 
+    p.add_argument('--max_norm', type = int, default = 10, help="max_norm")
+    
     p.add_argument('--n_accumulate', type = int, default = 1, help="n_accumulate")
-    p.add_argument('--max_grad_norm', type = int, default = 1000, help="max_grad_norm")
+    #p.add_argument('--max_grad_norm', type = int, default = 1000, help="max_grad_norm")
     p.add_argument('--device', type = str, default = "cuda", help="CUDA or MPS or CPU?")
 
     config = p.parse_args()
