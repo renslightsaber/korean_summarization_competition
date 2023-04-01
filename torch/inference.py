@@ -49,6 +49,8 @@ def define():
     
     p.add_argument('--model', type = str, default = "eenzeenee/t5-small-korean-summarization", help="HuggingFace Pretrained Model")    
     p.add_argument('--model_type', type = str, default = "t5", help="HuggingFace Bart or T5")
+    p.add_argument('--model_saved_type', type = str, default = "R1", help="R1 or Loss")
+    
     # p.add_argument('--is_lora', type = str, default = 'True', help = "LoRA Applied?")
     true_false_list = ['true', 'yes', "1", 't','y']
     p.add_argument("--is_lora", type= lambda s : s.lower() in true_false_list, required=False, default=True, 
@@ -96,52 +98,15 @@ def main(config):
         device = torch.device("cpu")
 
     print("Device", device)
+   
+  
     
-    
-    ################ Check Saved Model Path #################
-    peft_path = config.model_save +  f'output_peft_dir'
-    output_path = config.model_save + f'output_/'
-    
-    print("Saved Model Path: ")
-    if config.is_lora:
-        print(peft_path)
-    else:
-        print(output_path)
-    
-    ############### Accelerator ###############
-    accelerator = Accelerator()
-    
-    ############### Define Model ###############
-    if config.model_type == "t5":
-        
-        ################# T5 Base #########################
-        # model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
-        
-        if config.is_lora:
-            ################### LoRA ###############################
-            model = AutoModelForSeq2SeqLM.from_pretrained(config.model, load_in_8bit=True, device_map={"":0})
-            print("Base Model Loaded")
-            model = PeftModel.from_pretrained(model = model, model_id = peft_path, device_map={"":0})
-            print("Peft LoRA Model Loaded")
-        else:
-            ################### Pure T5 ############################
-            model = AutoModelForSeq2SeqLM.from_pretrained(output_path, local_files_only=True).to(device)
-            print("Saved Model Loaded")
-            
-    else:
-        ################# Bart Base #########################
-        # model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
-        
-        if config.is_lora:
-            ################### LoRA ###############################
-            model = AutoModelForSeq2SeqLM.from_pretrained(config.model, load_in_8bit=True, device_map={"":0})
-            print("Base Model Loaded")
-            model = PeftModel.from_pretrained(model = model, model_id = peft_path, device_map={"":0})
-            print("Peft LoRA Model Loaded")
-        else:
-            ################### Pure Bart ############################
-            model = AutoModelForSeq2SeqLM.from_pretrained(output_path, local_files_only=True).to(device)
-            print("Saved Model Loaded")
+    ############### get Model ###############
+    model  = get_model(model_name = config.model, 
+                       model_save_path = config.model_save, 
+                       is_lora = config.is_lora,
+                       model_saved_type = config.model_saved_type, # 'R1'
+                       )
             
         
     ################# Collate_fn #################
@@ -164,6 +129,14 @@ def main(config):
                              pin_memory = True, 
                              drop_last= False)
     print("Test Loader Completed")
+    
+    
+    
+    ############### Accelerator ###############
+    accelerator = Accelerator()
+    
+    model, test_loader = accelerator.prepare(model, test_loader)
+    
     
     ############################# Summarize (Inference) ##################################
     print("Beams: ", config.num_beams)
