@@ -153,7 +153,7 @@ def main(config):
                     'is_lora': config.is_lora, 
                     'lora_r': config.lora_r,
                     'lora_alpha': config.lora_alpha,
-                    'lora_target_modules': config.lora_target_modules,
+                    'lora_target_modules': ast.literal_eval(config.lora_target_modules),
                     'lora_dropout_p': config.lora_dropout_p,
                     'num_sentences': config.num_sentences,
                     'lr': config.learning_rate,
