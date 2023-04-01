@@ -3,6 +3,7 @@
 
 <img src="/imgs/스크린샷 2023-03-31 오후 5.40.40.png" width="82%"></img>
 
+
 ## Competition Info
  - Period: 2023.03.20 - 2022.03.30
  - Joined as: `Individual`
@@ -11,11 +12,13 @@
  - Evaluation Metric: `ROUGE-1(F1)`, `ROUGE-2(F1)`, `ROUGE-L(F1)` | `Tokenizer = Mecab`
  - Environment: `Colab`
  
+ 
  ## Result 
  - PUBLIC  : `3rd` / 418 teams (total 601 participants)
    > Hope Higher or this Rank in `Private LeaderBoard` or `Final LeaderBoard`
  - PRIVATE : `Not yet`
  - Final: `Not yet`
+ 
  
 ## Why Joined this Competition
 - Studying `NLG` task; models, how to fine-tune, ... 
@@ -26,13 +29,26 @@
   - `Train` and `Inference` with: 
     - 🤗huggingface
     - 🔥torch 
- 
+
+
+## What I learned 
+- how to fine-tune LLM with `LoRA`(`huggingface/peft`)
+- Evaluation Metric for `NLG` TASK : `ROUGE`
+- Inference Strategies of `NLG` `model: model.generate( num_beams, min_length, max_length, ... )`
+
+
+## What I missed
+- `Train` and `Inference` with ⚡lightning 2.0 
+- `Prompt-Tuning`, `Prefix-Tuning`
+
+
 ## How to train or inference in CLI? 
 - [pip install ... ](https://github.com/renslightsaber/korean_summarization_competition/blob/main/pip_install.md)
 - [🤗huggingface - Practice in cli](https://github.com/renslightsaber/korean_summarization_competition/tree/main/hf) 
 - [🔥torch - Practice in cli](https://github.com/renslightsaber/korean_summarization_competition/tree/main/torch) 
 - [⚡lightning - Practice in cli](https://github.com/renslightsaber/korean_summarization_competition/tree/main/lightning) 
 - Check [![wandb](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-gradient.svg)](https://wandb.ai/wako/Korean_Summarization?workspace=user-wako)
+
 
 ## References
 - [🤗Huggingface - Summarization](https://huggingface.co/course/chapter7/5?fw=pt)
