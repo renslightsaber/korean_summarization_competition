@@ -99,6 +99,8 @@ def define():
     
     p.add_argument('--num_sentences', type = int, default = 4, help="Number of Senternces for infer during training")
     
+    p.add_argument('--strategy', type = str, default = "auto", help="ddp, deepspeed, ... ")
+    
     p.add_argument('--train_batch_size', type = int, default = 16, help="Train Batch Size")
     p.add_argument('--valid_batch_size', type = int, default = 16, help="Valid Batch Size")
     
