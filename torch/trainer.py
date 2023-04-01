@@ -1,4 +1,5 @@
 import os
+import gc
 import time
 
 import copy
@@ -14,18 +15,14 @@ import pandas as pd
 import torch
 import torch.nn as nn
 
-from utils import *
+from tqdm.auto import tqdm, trange
 
-# from accelerate import Accelerator
+from accelerate import Accelerator
 
 # accelerator = Accelerator()
 # model, optimizer, train_loader, valid_loader = accelerator.prepare(model, optimizer, train_loader, valid_loader)
 
-
-
-
-
-
+from utils import *
 
 ############################## ROUGE Score (num Sentences) #####################################
 def rouge_function(model, accelerator, tokenizer, ids, masks, targets, metric, num_sentences):
