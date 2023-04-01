@@ -28,7 +28,7 @@ $ pip install "transformers==4.27.2" "datasets==2.9.0" "accelerate==0.17.1" "eva
 ### [Lightning 2.0⚡](https://lightning.ai/docs/pytorch/stable/starter/installation.html#)
  This is 'Installation on `Colab`' Version.
  ```bash
-# Need to install 'Pytorch 2.0' if you want.
+# install 'Pytorch 2.0' if you want.
 $ pip install --upgrade torch torchvision
 ```
 ```bash
