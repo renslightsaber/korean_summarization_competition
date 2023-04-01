@@ -21,8 +21,8 @@
 - Studying `NLG` task; models, how to fine-tune, ... 
 - Needs Experience for `NLG` task
   - Never experienced before
-- Test Lightning 2.0 
-  - Not enough time for this. 
+- Test ⚡lightning 2.0 
+  - I couldn't bcz of short period. 
   - `Train` and `Inference` with: 
     - 🤗huggingface
     - 🔥torch 
@@ -31,6 +31,7 @@
 - [pip install ... ](https://github.com/renslightsaber/korean_summarization_competition/blob/main/pip_install.md)
 - [🤗huggingface - Practice in cli](https://github.com/renslightsaber/korean_summarization_competition/tree/main/hf) 
 - [🔥torch - Practice in cli](https://github.com/renslightsaber/korean_summarization_competition/tree/main/torch) 
+- [⚡lightning - Practice in cli](https://github.com/renslightsaber/korean_summarization_competition/tree/main/lightning) 
 - Check [![wandb](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-gradient.svg)](https://wandb.ai/wako/Korean_Summarization?workspace=user-wako)
 
 ## References
