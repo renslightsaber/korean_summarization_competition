@@ -24,6 +24,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from konlpy.tag import Mecab
+
 ## Pytorch Import
 import torch 
 import torch.nn as nn
@@ -59,6 +61,7 @@ warnings.filterwarnings("ignore")
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 
 from utils import *
+from trainer import *
     
     
 ############### config = define() #########################
@@ -151,11 +154,11 @@ def main(config):
     ############### Define Model ###############
     if config.model_type == "t5":
         
-        ################# T5 Base #########################
+        ################# T5 Base ###############
         model = AutoModelForSeq2SeqLM.from_pretrained(config.model).to(device)
         
         if config.is_lora:
-            ################### LoRA ###############################
+            ################### LoRA ###################
             lora_config = LoraConfig(r= config.lora_r,
                                     lora_alpha= config.lora_alpha,
                                     target_modules= ast.literal_eval(config.lora_target_modules),
@@ -163,15 +166,15 @@ def main(config):
                                     bias="none", 
                                     task_type=TaskType.SEQ_2_SEQ_LM)
             
-            print("Int 8 model for training")
+            print("Int 8 model for training: T5 Model")
             model = prepare_model_for_int8_training(model)
             
-            print("LoRA Adaptor Added")
+            print("LoRA Adaptor Added: T5 Model")
             model = get_peft_model(model, lora_config)
             model.print_trainable_parameters()
             
         else:
-            ################### Pure T5 ############################
+            ############# Pure T5 #####################
             print("Pure T5 Model")
             
     else:
@@ -187,10 +190,10 @@ def main(config):
                                     bias="none", 
                                     task_type=TaskType.SEQ_2_SEQ_LM)
             
-            print("Int 8 model for training")
+            print("Int 8 model for training: BART MODEL")
             model = prepare_model_for_int8_training(model)
             
-            print("LoRA Adaptor Added")
+            print("LoRA Adaptor Added: BART MODEL")
             model = get_peft_model(model, lora_config)
             model.print_trainable_parameters()
             
@@ -242,35 +245,30 @@ def main(config):
     
     ################### wandb ######################
     run = wandb.init(project='Korean_Summarization', 
-                      config=config,
-                      job_type='Train',
-                      # group=group_name,
-                      # tags=[config['model'], f'{HASH_NAME}'],
-                      # name=f'{HASH_NAME}-fold-{fold}',
-                       name = config.try_title + f"_hf_Trainer",
-                       anonymous='must')
+                     config=config,
+                     job_type='Train',
+                     name = config.try_title + f"_torch",
+                     anonymous='must')
     
 
     ############# Let's Train! ##################
-    trainer.train()
+    run_train(model, 
+              accelerator,
+              config.model_save, 
+              train_loader, 
+              valid_loader, 
+              # loss_fn = None, 
+              optimizer = optimizer, 
+              device = device, 
+              tokenizer = tokenizer, 
+              rouge_function = rouge_function,
+              num_sentences = config.num_sentences,
+              max_norm = config.max_norm,
+              scheduler = CosineWarmupScheduler(optimizer=optimizer, warmup=100, max_iters=2000), 
+              grad_clipping = True, 
+              n_epochs= config.n_epochs )
     
-    ############ Save Best Model ################
-    # trainer.save_model()
     
-    ############ Save Best PEFT LORA Model ################
-    if config.is_lora:
-        peft_path = config.model_save +  f'output_peft_dir'
-        trainer.model.save_pretrained(peft_path)
-        print("Peft LoRA Model Saved")
-        tokenizer.save_pretrained(peft_path)
-        print("Tokenizer Saved")
-    else:
-        print(output_path)
-        trainer.save_model(output_path)
-        print("Peft Model Saved")
-        tokenizer.save_pretrained(output_path)
-        print("Tokenizer Saved")
-
     ############ wandb.finish() #################
     run.finish()
     
