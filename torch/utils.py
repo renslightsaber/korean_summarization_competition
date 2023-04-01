@@ -234,6 +234,7 @@ def get_model(model_name,
 ######################## summarize function ###########################
 def summarize(model, 
               accelerator, 
+              tokenizer,
               dataloader, 
               num_beams,
               device):
