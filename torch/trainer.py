@@ -75,11 +75,11 @@ def train_one_epoch(model,
                     optimizer, 
                     device, 
                     epoch,
-                    tokenizer = tokenizer, 
-                    rouge_function = rouge_function, 
-                    num_sentences = 4, 
-                    max_norm = 10,
-                    scheduler = None, 
+                    tokenizer, 
+                    rouge_function, 
+                    num_sentences, 
+                    max_norm,
+                    scheduler, 
                     grad_clipping = False):
 
     ################ torchmetrics: initialize metric #########################
@@ -170,9 +170,9 @@ def valid_one_epoch(model,
                     # optimizer, 
                     device, 
                     epoch, 
-                    tokenizer = tokenizer,
-                    rouge_function = rouge_function, 
-                    num_sentences = 4
+                    tokenizer,
+                    rouge_function, 
+                    num_sentences
                     ):
 
     ################ torchmetrics: initialize metric #########################
@@ -251,13 +251,13 @@ def run_train(model,
               # loss_fn, 
               optimizer, 
               device, 
-              tokenizer = tokenizer, 
-              rouge_function = rouge_function, 
-              num_sentences = 4, 
-              max_norm = 10,
-              scheduler = None, 
-              grad_clipping = False, 
-              n_epochs= 3):
+              tokenizer, 
+              rouge_function, 
+              num_sentences, 
+              max_norm,
+              scheduler, 
+              grad_clipping, 
+              n_epochs):
     
     # To automatically log gradients
     wandb.watch(model, log_freq=100)
