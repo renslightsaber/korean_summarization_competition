@@ -1,4 +1,4 @@
-# [[공사 중][AI CONNECT] Korean Abstractive Summary Competition](https://aiconnect.kr/competition/detail/223)
+# [[공사 중][AI CONNECT] 노트북으로 GPT 맛보기(Korean Abstractive Summary Competition)](https://aiconnect.kr/competition/detail/223)
 
 
 <img src="/imgs/스크린샷 2023-03-31 오후 5.40.40.png" width="82%"></img>
