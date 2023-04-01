@@ -15,6 +15,12 @@ import pandas as pd
 import torch
 import torch.nn as nn
 
+# For colored terminal text
+from colorama import Fore, Back, Style
+b_ = Fore.BLUE
+y_ = Fore.YELLOW
+sr_ = Style.RESET_ALL
+
 from tqdm.auto import tqdm, trange
 
 from accelerate import Accelerator
