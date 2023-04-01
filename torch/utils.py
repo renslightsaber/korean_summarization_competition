@@ -17,6 +17,10 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 
+from peft import PeftModel
+from transformers import AutoModelForSeq2SeqLM
+
+
 #################### Set Seed ###########################
 def set_seed(seed=42):
     '''Sets the seed of the entire notebook so results are the same every time we run.
@@ -29,6 +33,7 @@ def set_seed(seed=42):
     torch.backends.cudnn.benchmark = False
     # Set a fixed value for the hash seed
     os.environ['PYTHONHASHSEED'] = str(seed)
+    
     
 ################### MyDataset #######################
 class MyDataset(Dataset):
@@ -126,6 +131,7 @@ def prepare_loader(train,
     print("DataLoader Completed")
     return train_loader, valid_loader
   
+    
   
 ################# Scheduler #################
 import torch.optim as optim
@@ -182,6 +188,91 @@ def make_plot(result, stage = "Loss"):
         plt.yscale('log')
     plt.grid(True)
     plt.show()
+    
+    
+    
+############################ get_model ################################
+def get_model(model_name, 
+              model_save_path, 
+              is_lora,
+              model_saved_type, # 'R1'
+              ):
+    
+    base_model = AutoModelForSeq2SeqLM.from_pretrained(model_name, load_in_8bit=True, device_map={"":0})
+    
+    
+    if is_lora:
+        if model_saved_type == "R1":
+            PEFT_MODEL_PATH = model_save_path + "peft_r1/"
+            # get peft_model lora
+            model = PeftModel.from_pretrained(model=base_model, model_id=PEFT_MODEL_PATH, device_map={"":0})
+            print("Peft R1 Model Loaded")
+            return model
+
+        else:
+            PEFT_MODEL_PATH = model_save_path + "peft_loss/"
+            model = PeftModel.from_pretrained(model=base_model, model_id=PEFT_MODEL_PATH, device_map={"":0})
+            print("Peft Loss Model Loaded")
+            return model
+
+    else:
+        if model_saved_type == "R1":
+            PEFT_MODEL_PATH = model_save_path + "peft_r1/"
+            model = AutoModelForSeq2SeqLM.from_pretrained(PEFT_MODEL_PATH).to(device)
+            print("R1 Model Loaded")
+            return model
+
+        else:
+            PEFT_MODEL_PATH = model_save_path + "peft_loss/"
+            model = AutoModelForSeq2SeqLM.from_pretrained(PEFT_MODEL_PATH).to(device)
+            print("Loss Model Loaded")
+            return model
+    
+    
+    
+    
+######################## summarize function ###########################
+def summarize(model, 
+              accelerator, 
+              dataloader, 
+              num_beams,
+              device):
+
+    model.eval()
+    bar = tqdm(enumerate(dataloader), total = len(dataloader), desc='Test Loop')
+    total_sentences = []
+    with torch.no_grad():
+        for step, data in bar:
+            ids = data['input_ids'].to(device, dtype = torch.long)
+            masks = data['attention_mask'].to(device, dtype = torch.long)
+
+        
+            # ROUGE Score (num Sentences)
+            generated_tokens = accelerator.unwrap_model(model).generate(input_ids = ids, 
+                                                                        attention_mask = masks,
+                                                                        # pad_token_id = tokenizer.pad_token_id,
+                                                                        # #  max_new_tokens = 100,
+                                                                        # do_sample = False,
+                                                                        num_beams = num_beams,
+                                                                        # num_beam_groups = 3,
+                                                                        # penalty_alpha = None,
+                                                                        # use_cache = True,
+                                                                        # temperature = 1.0,
+                                                                        min_length=30, 
+                                                                        max_length=65)
+            generated_tokens = accelerator.pad_across_processes(generated_tokens, dim=1, pad_index=tokenizer.pad_token_id)
+                
+            generated_tokens = accelerator.gather(generated_tokens).cpu().numpy()
+
+            if isinstance(generated_tokens, tuple):
+                    generated_tokens = generated_tokens[0]
+
+            decoded_preds = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+
+            total_sentences += decoded_preds
+    print(len(total_sentences))
+    print("Completed")
+    return total_sentences
     
     
     
