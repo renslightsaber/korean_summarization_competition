@@ -37,7 +37,8 @@ from konlpy.tag import Mecab
 ########################## get_lightning_train_model function #########################################
 def get_lightning_train_model(model_kwargs,
                               is_compiled,
-                              mode):
+                              mode, 
+                              device):
     
     base_model = LitModel(**model_kwargs).to(device)
 
