@@ -124,7 +124,7 @@ def main(config):
     print(model_kwargs)
    
     ################## Best Model Saved Path #######################
-    check_path = config['model_save'] + "output/best_model.ckpt"
+    check_path = config.model_save + "output/best_model.ckpt"
     print(check_path)
   
     
