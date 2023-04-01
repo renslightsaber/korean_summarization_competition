@@ -17,6 +17,15 @@
  - PRIVATE : `Not yet`
  - Final: `Not yet`
  
+## Why Joined this Competition
+- Studying `NLG` task; models, how to fine-tune, ... 
+- Needs Experience for `NLG` task
+  - Never experienced before
+- Test Lightning 2.0 
+  - Not enough time for this. 
+  - `Train` and `Inference` with: 
+    - 🤗huggingface
+    - 🔥torch 
  
 ## How to train or inference in CLI? 
 - [pip install ... ](https://github.com/renslightsaber/korean_summarization_competition/blob/main/pip_install.md)
