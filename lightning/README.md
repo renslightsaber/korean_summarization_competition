@@ -1,7 +1,7 @@
-# [⚡Lightning_2.0] How to train or inference in CLI? [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1CzPRYS35xKfNrxidSVhDiMMQulqud9yu?usp=share_link) [![wandb](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-gradient.svg)](https://wandb.ai/wako/Korean_Summarization?workspace=user-wako)
+# [⚡lightning] How to train or inference in CLI? [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1CzPRYS35xKfNrxidSVhDiMMQulqud9yu?usp=share_link) [![wandb](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-gradient.svg)](https://wandb.ai/wako/Korean_Summarization?workspace=user-wako)
  
 
-## Check Jupyter Notebook Version (Just ⚡Lightning_2.0_style Baseline) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Uq1sgNtez99AmIXccOMHhpfVCNmoDLeQ?usp=share_link) 
+## Check Jupyter Notebook Version (Just ⚡lightning_style Baseline) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Uq1sgNtez99AmIXccOMHhpfVCNmoDLeQ?usp=share_link) 
  
 
 
