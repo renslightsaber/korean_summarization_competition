@@ -38,8 +38,10 @@
 
 
 ## What I missed
-- `Train` and `Inference` with ⚡lightning 2.0 
+- `Train` and `Inference` with ⚡`lightning 2.0`
 - `Prompt-Tuning`, `Prefix-Tuning`
+- Fully Understand of `BEAMSEARCH`  
+ : I'm gonna to study these things above
 
 
 ## How to train or inference in CLI? 
