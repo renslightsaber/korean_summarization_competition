@@ -3,7 +3,7 @@
 
 ## Check Jupyter Notebook Version (Just ⚡lightning_style Baseline) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Uq1sgNtez99AmIXccOMHhpfVCNmoDLeQ?usp=share_link) 
  
-
+here gonna be img soon
 
 ## Notice
  - Unfortunately, Data is not Provided.
@@ -11,8 +11,12 @@
    - Compare with `🤗huggingface` or `🔥torch`.
    - compatible for `torch.compile()`: however, got error whenever I tried. 
      - I guess that`peft` might be not compatible with `🔥Pytorch 2.0`.
-   - Just for studying `⚡lightning 2.0` and `Fabric`.
-   
+   - Just for studying `⚡lightning 2.0` and `Fabric`. 
+- This code costs a lot of time for training.
+- In this code, you can check ROUGE scores after each step during `validation`.
+    - I just wanna visualize the `ROUGE` scores per epoch.
+    - You can set the number of sentences for `ROUGE` scores after each step. (`num_sentences`)
+    
    
 ## [wandb login in CLI interface](https://docs.wandb.ai/ref/cli/wandb-login)
 ```python
