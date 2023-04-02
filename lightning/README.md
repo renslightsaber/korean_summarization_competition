@@ -3,7 +3,9 @@
 
 ## Check Jupyter Notebook Version (Just ⚡lightning_style Baseline) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Uq1sgNtez99AmIXccOMHhpfVCNmoDLeQ?usp=share_link) 
  
-here gonna be img soon
+
+<img src="/imgs/스크린샷 2023-04-02 오후 2.43.23.png" width="86%"></img>
+
 
 ## Notice
  - Unfortunately, Data is not Provided.
