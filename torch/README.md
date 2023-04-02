@@ -26,6 +26,7 @@ $ python train.py --data_path '/content/drive/MyDrive/ ... /data/' \
                   --is_sample True \
                   --sample 1000 \
                   --model 'gogamza/kobart-base-v2' \
+                  --model_type "bart" \
                   --is_lora True \
                   --lora_r 4 \
                   --lora_alpha 32 \
@@ -34,6 +35,7 @@ $ python train.py --data_path '/content/drive/MyDrive/ ... /data/' \
                   --try_title "test_bart_lora" \
                   --n_epochs 2 \
                   --num_sentences 2 \
+                  --device 'cuda' \
                   --max_length 512 \
                   --target_max_length 55 \
                   --train_batch_size 8 \
@@ -57,12 +59,11 @@ $ python inference.py --data_path '/content/drive/MyDrive/ ... /data/' \
                       --model_save '/content/drive/MyDrive/ ... /test/model/torch_bart_lora/' \
                       --sub_path '/content/drive/MyDrive/ ... /test/sub/' \
                       --model 'gogamza/kobart-base-v2' \
+                      --model_type "bart" \
+                      --model_saved_type "R1" \
                       --is_lora True \
-                      --lora_r 4 \
-                      --lora_alpha 32 \
-                      --lora_target_modules "['q_proj', 'v_proj']" \
-                      --lora_dropout_p 0.05 \
                       --try_title "test_bart_lora" \
+                      --device 'cuda' \
                       --num_beams 3 \
                       --max_length 512 \
                       --target_max_length 55 \
