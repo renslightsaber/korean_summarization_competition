@@ -69,7 +69,7 @@ $ python inference.py --data_path '/content/drive/MyDrive/ ... /data/' \
                       --lora_alpha 32 \
                       --lora_target_modules "['q_proj', 'v_proj']" \
                       --lora_dropout_p 0.05 \
-                      --try_title "test_bart_lora" \
+                      --try_title "_bart_lora" \
                       --num_beams 3 \
                       --max_length 512 \
                       --target_max_length 55 \
