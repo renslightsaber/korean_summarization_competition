@@ -36,6 +36,10 @@
 - Evaluation Metric for `NLG` TASK : `ROUGE`
 - Inference Strategies of `NLG` `model: model.generate( num_beams, min_length, max_length, ... )`
 
+## What I'm impressed by
+- 🤗huggingface is very fast: much faster than 🔥torch , ⚡lightning 2.0. (Up to 2x faster)
+- ⚡lightning 2.0 manage resources so efficiently that `t5-base` model could run in `Colab`'s Standard GPU `Tesla T4`.
+
 
 ## What I missed
 - `Train` and `Inference` with ⚡`lightning 2.0`
