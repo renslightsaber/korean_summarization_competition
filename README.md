@@ -1,4 +1,4 @@
-# [[공사 중][AI CONNECT] 노트북으로 GPT 맛보기(Korean Abstractive Summary Competition)](https://aiconnect.kr/competition/detail/223)
+# [[AI CONNECT] 노트북으로 GPT 맛보기(Korean Abstractive Summary Competition)](https://aiconnect.kr/competition/detail/223)
 
 
 <img src="/imgs/스크린샷 2023-03-31 오후 5.40.40.png" width="82%"></img>
@@ -15,9 +15,8 @@
  
  ## Result 
  - PUBLIC  : `3rd` / 418 teams (total 601 participants)
-   > Hope Higher or this Rank in `Private LeaderBoard` or `Final LeaderBoard`
- - PRIVATE : `Not yet`
- - Final: `Not yet`
+ - PRIVATE : `2nd` / 418 teams (total 601 participants)
+ - Final: `2nd` / 418 teams (total 601 participants)
  
  
 ## Why Joined this Competition
