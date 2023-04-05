@@ -36,7 +36,8 @@
 - Inference Strategies of `NLG` `model: model.generate( num_beams, min_length, max_length, ... )`
 
 ## What I'm impressed by
-- 🤗huggingface is very fast: much faster than 🔥torch , ⚡lightning 2.0. (Up to 2x faster)
+- ~~🤗huggingface is very fast: much faster than 🔥torch , ⚡lightning 2.0. (Up to 2x faster)~~   
+  -> Misunderstood from different experimental tries in diffrent environmental settings and codes.
 
 
 ## What I missed
