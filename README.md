@@ -13,11 +13,12 @@
  - Environment: `Colab`
  
  
- ## Result 
+ ## Result "2nd Prize!"
  - PUBLIC  : `3rd` / 418 teams (total 601 participants)
  - PRIVATE : `2nd` / 418 teams (total 601 participants)
- - Final: `2nd` / 418 teams (total 601 participants)
+ - Final: `2nd` / 418 teams (total 601 participants)   
  
+   <img src="/imgs/스크린샷 2023-04-11 오후 4.14.55.PNG" width="25%"></img>
  
 ## Why Joined this Competition
 - Studying `NLG` task; models, how to fine-tune, ... 
