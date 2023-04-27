@@ -41,12 +41,6 @@
   -> Misunderstood from different experimental tries in diffrent environmental settings and codes.
 
 
-## What I missed
-- `Train` and `Inference` with ⚡`lightning 2.0`
-- `Prompt-Tuning`, `Prefix-Tuning`
-- Fully Understand of `BEAMSEARCH`  
- : I'm gonna to study these things above
-
 
 ## How to train or inference in CLI? 
 - [pip install ... ](https://github.com/renslightsaber/korean_summarization_competition/blob/main/pip_install.md)
